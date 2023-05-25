@@ -1,25 +1,31 @@
 import simpleaudio as sa
 from quiz import quiz, other_quiz
-from PIL import Image
+import requests
+from random import randint
 
-choice = 0
+
+def get_random_name():
+    r = requests.get('https://svnweb.freebsd.org/csrg/share/dict/propernames?revision=61766&view=co')
+    text = r.text
+    individual_word = text.split()
+    random_number = randint(0, len(individual_word))
+    return individual_word[random_number]
+
+
+
 score = 0
-words = ["obiettare", "lettura vocale", "sistemi antiquati"]
-pictures = ["birra", "gallo", "limone"]
+name = get_random_name()
+words = ["tavolo", "lavandino", "torta"]
 description = "Ti presenterò 3 parole avrai un tempo limite di 10 secondi a parola per riscriverla e premere Enter"
 
-print("Ciao! Mi chiamo Bot.")
-print("Sono stato creato nel 2023.")
-nome_ragazzo = input("Inserisci il tuo nome e il tuo cognome")
-print(f"Ciao {nome_ragazzo}")
-print("Welcome to dyslexia recogniction")
+print(f"Ciao {name}! Mi chiamo Bot , come posso aiutarti?")
+
 print("1) Text Test ")
 print("2) Speech Test ")
 print("3) Dyslexia Quiz ")
 print("4) Assente Presente")
-print("5) Picture Chooser ")
 
-choice = int(input("Select a test:(1,2,3,4 o 5)"))
+choice = int(input("Select a test:(1,2,3 o 4)"))
 if choice == 1:
     for i in range(0, len(words)):
         print(words[i])
@@ -27,11 +33,14 @@ if choice == 1:
         if words[i] == my_word:
             score += 1
     if score == 3:
-        print(f"Your score is: {score}/{len(words)}")
-        print("You are not dyslexic")
+        print(f"Il tuo punteggio è: {score}/{len(words)}")
+        print("Non sei dislessico")
+    elif score == 2:
+        print(f"Il tuo punteggio è: {score}/{len(words)}")
+        print("C'è una probabilità che tu sia DSA ")
     else:
-        print(f"Your score is: {score}/{len(words)}")
-        print("You are dyslexic")
+        print(f"Il tuo punteggio è: {score}/{len(words)}")
+        print("Sei uno studente con disturbo DSA ")
 if choice == 2:
     for i in range(0, len(words)):
         wave_obj = sa.WaveObject.from_wave_file(f"./{words[i]}.wav")
@@ -40,11 +49,14 @@ if choice == 2:
         if words[i] == my_word:
             score += 1
     if score == 3:
-        print(f"Your score is: {score}/{len(words)}")
-        print("You are not dyslexic")
+        print(f"Il tuo punteggio è: {score}/{len(words)}")
+        print("Non sei uno studente con disturbo DSA")
+    elif score == 2:
+        print(f"Il tuo punteggio è: {score}/{len(words)}")
+        print("C'è una probabilità che tu sia DSA ")
     else:
-        print(f"Your score is: {score}/{len(words)}")
-        print("You are dyslexic")
+        print(f"Il tuo punteggio è: {score}/{len(words)}")
+        print("Sei uno studente con disturbo DSA ")
 if choice == 3:
     answer = ""
     for i in quiz:
@@ -54,37 +66,29 @@ if choice == 3:
             score += 1
     if score > 5 and score < 9:
         print(f"il tuo punteggio è:{score}/{len(quiz)}")
-        print("Probabilmente sei dislessico")
+        print("Probabilmente sei uno studente con DSA")
     elif score > 9:
         print(f"il tuo punteggio è:{score}/{len(quiz)}")
-        print("Sei sicuramente dislessico")
+        print("Sei uno studente con DSA")
     else:
         print(f"il tuo punteggio è:{score}/{len(quiz)}")
-        print("Non sei dislessico")
+        print("Non sei uno studente DSA")
 if choice == 4:
     answer = ""
     for i in other_quiz:
         print(f"{i}")
-        answer = input("Assente  Presente  Molto Presente")
+        answer = input("Assente  Presente  Molto Presente \n")
         answer = answer.lower()
-        if answer == "assente":
+        if answer == "presente":
+            score += 0.5
+        elif answer == "molto presente":
             score += 1
-    if score > 5 and score < 9:
+    if 5 < score < 9:
         print(f"il tuo punteggio è:{score}/{len(other_quiz)}")
         print("Probabilmente sei dislessico")
-    elif score > 9:
+    elif score >= 9:
         print(f"il tuo punteggio è:{score}/{len(other_quiz)}")
         print("Sei sicuramente dislessico")
     else:
         print(f"il tuo punteggio è:{score}/{len(other_quiz)}")
         print("Non sei dislessico")
-if choice == 5:
-    print("Guarda queste 3 foto che usciranno in sequenza e scrivi cosa sono: ")
-    for i in pictures:
-        image = Image.open(f"./{i}.jpg")
-        image.show()
-        answer = input("Inserire qui cosa ti sembra")
-        image.close()
-        if answer == i:
-            score += 1
-    print(f"Il tuo punteggio è di {score}/{len(pictures)}")
