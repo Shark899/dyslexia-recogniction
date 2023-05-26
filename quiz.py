@@ -14,3 +14,14 @@ quiz = ["Hai difficoltà a distinguere la destra dalla sinistra?",
     , "Trovi che i furmolari siano difficili e confondano?", "Confondi numeri dell'autobus come il 59 e il 95?",
         "Hai avuto difficoltà ad imparare le tabelline a scuola?"
         ]
+
+other_quiz = [
+    "1 Lettura Stentata ",
+    "2.  Lettura Lenta",
+    "3.  Scarsa Comprensione",
+    "4.  Errori di inversione di suono/lettera (D/T F/V B/D G/C)",
+    "5.  Difficoltà ad organizzare",
+    "6.  Errori di pronuncia",
+    "7.  Difficoltà a memorizzare",
+    "8.  Difficoltà nella risoluzione di problemi"
+]
